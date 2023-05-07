@@ -1,0 +1,49 @@
+{% extends 'Quiz/dependencies.html' %}
+
+{% block content %}
+
+<div class="container "><br>
+    <h3 class="card-text"><strong>答對率: {{grade}}%</strong></h3>
+    <hr style="border-color:darkgray;">
+    <p id="getques" style="display: none;">{{ques}}</p>
+    <p id="gettruth" style="display: none;">{% for t in truth %}{{t}}{% endfor %}</p>
+    <ul>
+        <li>總題數: {{ques}} 題</li>
+        <li>答對題數: {{correct}} 題</li>
+        <li>答錯題數: {{wrong}} 題</li>
+        <li id="get">{{time}}</li>
+    </ul>
+    <br>
+    <h3>題目回顧</h3>
+    {% for q in questions %}
+    <hr style="border-color:darkgray;">
+    <div class="form-group">
+        <label for="question">{{q.qid}}.</label><br>
+        <label for="question">{{q.question}}</label>
+    </div>
+    <div class="form-group">
+        <p>(A) {{q.op1}}<br>(B) {{q.op2}}<br>(C) {{q.op3}}<br>(D) {{q.op4}}<br>(E) {{q.op5}}</p>
+        <p>正確答案：({{q.ans}})</p>
+        <p id="{{q.qid}}">{% for a in answers %}{{a}}{% endfor %}</p>
+    </div>
+    <div class="form-group">
+        <p>詳解：</p>
+        <label for="question">{{q.det}}</label>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    const timer=document.getElementById('get');
+    t=parseInt(timer.innerHTML);
+    timer.innerHTML = "時間: "+parseInt(t/60)+" 分 "+(t%60)+" 秒 ";
+
+    for(i=1; i<=parseInt(document.getElementById('getques').innerHTML); i++){
+        document.getElementById(String(i)).innerHTML = "你的答案：(" + document.getElementById(String(i)).innerHTML.charAt(i-1) + ")";
+        if(document.getElementById("gettruth").innerHTML.charAt(i-1)==1){
+            document.getElementById(String(i)).style.backgroundColor = 'B9EDDD';
+        }else{
+            document.getElementById(String(i)).style.backgroundColor = 'F99B7D';
+        }
+    }
+</script>
+{% endblock %}

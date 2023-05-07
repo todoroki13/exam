@@ -1,0 +1,21 @@
+{% extends 'Quiz/dependencies.html' %}
+
+{% block content %}
+
+<div>
+    確認刪除以下題目<br><p>{{ quesmodel.question }}</p>
+    <p>A: {{ quesmodel.op1 }}</p>
+    <p>B: {{ quesmodel.op2 }}</p>
+    <p>C: {{ quesmodel.op3 }}</p>
+    <p>D: {{ quesmodel.op4 }}</p>
+    <p>E: {{ quesmodel.op5 }}</p>
+    <p>答案：{{ quesmodel.ans }}</p>
+    <br><br>
+</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    <input class="btn btn-danger" type="submit" value="確認刪除">
+    <a href="/home/" class="cancel">取消刪除</a>
+</form>
+
+{% endblock %}

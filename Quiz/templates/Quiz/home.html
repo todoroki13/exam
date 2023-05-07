@@ -1,0 +1,75 @@
+
+{% extends 'Quiz/dependencies.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container "><br>
+<h1>歡迎來到305的分科模擬考</h1>
+<div align="right " id="displaytimer" style="display: flex; position: fixed; background-color: white; right: 100px; top: 100px; border: 3px solid red; font-size: 20px; padding: 3px 5px;"><b>時間: 0 分 0 秒</b></div>
+
+ <form method='post' action=''>
+    {% csrf_token %}
+    {% for q  in questions%}
+    <hr style="border-color:darkgray;">
+    <div class="form-group">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'updateQuestion' q.id %}" class="chan">修改</a><a href="{% url 'deleteQuestion' q.id %}" class="chan">刪除</a><br>
+        {% endif %}
+        <label for="question">{{q.qid}}.</label><br>
+        <label for="question">{{q.question}}</label>
+    </div>
+    <div class="form-check">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="A">
+            <label class="form-check-label" for="gridRadios1">
+                (A) {{q.op1}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="B">
+            <label class="form-check-label" for="gridRadios2">
+                (B) {{q.op2}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="C">
+            <label class="form-check-label" for="gridRadios1">
+                (C) {{q.op3}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="D">
+            <label class="form-check-label" for="gridRadios2">
+                (D) {{q.op4}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="E">
+            <label class="form-check-label" for="gridRadios2">
+                (E) {{q.op5}}
+            </label>
+        </div>
+        <br>
+    </div>    
+    {% endfor %}
+    <input id='timer' type='hidden' name="timer" value="">
+    <br>
+    <button type="submit" class="btn btn-primary">我寫完嚕</button>
+  </form>
+    {% block script %}
+        <script>
+            const timer=document.getElementById('displaytimer')
+            const inputtag = document.getElementById('timer')
+
+            t=0
+            setInterval(()=>{
+                t+=1
+                timer.innerHTML = "<b>時間: "+parseInt(t/60)+" 分 "+(t%60)+" 秒 "
+                inputtag.value = t
+            },1000)
+        </script>
+    {% endblock script %}
+
+</div>
+{% endblock %}
+ 
